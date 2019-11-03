@@ -1,0 +1,58 @@
+unit uMaquina;
+
+interface
+
+uses
+  uIMaquina, Classes, uTroco;
+
+type
+
+  TMaquina = class(TInterfacedObject, IMaquina)
+  public
+    function MontarTroco(aTroco: Double): TList;
+  end;
+
+implementation
+
+function TMaquina.MontarTroco(aTroco: Double): TList;
+var
+  vValor : double;
+  vQuantidadeCedulas : integer;
+  aTipo: TCedula;
+begin
+   vValor := aTroco;
+   vQuantidadeCedulas := 0;
+   aTipo := ceNota100;
+
+   while vValor > 0 do
+   begin
+     if (vValor >= aTipo) then
+     begin
+       vValor := vValor - aTipo;
+       vQuantidadeCedulas := vQuantidadeCedulas + 1;
+     end
+     else
+     begin
+       case aTipo of
+         ceNota100  : aTipo  := ceNota50;
+         ceNota50   : aTipo  := ceNota20;
+         ceNota20   : aTipo  := ceNota10;
+         ceNota10   : aTipo  := ceNota5;
+         ceNota5    : aTipo  := ceNota2;
+         ceNota2    : aTipo  := ceMoeda100;
+         ceMoeda100 : aTipo  := ceMoeda50;
+         ceMoeda50  : aTipo  := ceMoeda25;
+         ceMoeda25  : aTipo  := ceMoeda10;
+         ceMoeda10  : aTipo  := ceMoeda5;
+         ceMoeda5   : aTipo  := ceMoeda1;
+       end;
+       vQuantidadeCedulas := 0;
+     end;
+   end;
+
+
+  Result := nil;
+end;
+
+end.
+
